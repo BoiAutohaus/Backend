@@ -68,10 +68,10 @@ class RegisterDao {
         return false;
     }
 
-    create(email = "" ,vorname = "", nachname="" ,strasse = "", hausnummer = "", plz = "", ort = "", passwort ="") {
+    create(mail = "" ,vorname = "", nachname="" ,strasse = "", hausnummer = "", plz = "", ort = "", passwort ="") {
         var sql = "INSERT INTO Kundendaten (eMail, Vorname, Nachname, Strasse,Hausnummer,Ort, PLZ, Passwort) VALUES (?,?,?,?,?,?,?,?)";
         var statement = this._conn.prepare(sql);
-        var params = [email, vorname, nachname, strasse, hausnummer,plz, ort,passwort];
+        var params = [mail, vorname, nachname, strasse, hausnummer,plz, ort,passwort];
         var result = statement.run(params);
 
         if (result.changes != 1) 
