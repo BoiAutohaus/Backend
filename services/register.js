@@ -26,8 +26,14 @@ serviceRouter.get("/login", function(request, response){
         var mail = registerDao.loadByMail(request.body.mail)
         helper.log(mail)
         
+        if (mail[passwort] == request.body.passwort)
+            var success = "Successfully logged in"
+            helper.log(success)
+            response.status(200).json(helper.jsonMsgOK(success))
+        
     } catch (ex){
             helper.logError("Service Register: Error logging in, Exception occured: " + ex.message)
+            response.status(400).json(helper.jsonMsgError(ex.message))
         }        
     
 
@@ -38,7 +44,8 @@ serviceRouter.get("/register/alle", function(request, response) {
 
     const registerDao = new RegisterDao(request.app.locals.dbConnection);
     try {        
-        var result = registerDao.loadAll();        
+        var result = registerDao.loadAll(); 
+        helper.log(result)       
         helper.log("Service Register: Records loaded, count=" + result.length);
         response.status(200).json(helper.jsonMsgOK(result));
     } catch (ex) {
@@ -63,7 +70,7 @@ serviceRouter.get("/register/existiert/:id", function(request, response) {
 
 serviceRouter.post("/register", function(request, response) {
     helper.log("Service Register: Client requested creation of new record");
-
+    helper.log(request.body.passwort)
     var errorMsgs=[];
     if (helper.isUndefined(request.body.strasse)) 
         errorMsgs.push("strasse fehlt");
