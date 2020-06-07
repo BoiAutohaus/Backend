@@ -18,12 +18,34 @@ serviceRouter.get("/register/gib/:mail", function(request, response) {
     }
 });
 
+serviceRouter.get("/login", function(request, response){
+    helper.log("Service Register: Client tries to login, eMail= " + request.body.mail + " Passwort: " + request.body.passwort);
+    
+    const registerDao = new RegisterDao(request.app.locals.dbConnection);
+    try{
+        var mail = registerDao.loadByMail(request.body.mail)
+        helper.log(mail)
+        
+        if (mail[passwort] == request.body.passwort)
+            var success = "Successfully logged in"
+            helper.log(success)
+            response.status(200).json(helper.jsonMsgOK(success))
+        
+    } catch (ex){
+            helper.logError("Service Register: Error logging in, Exception occured: " + ex.message)
+            response.status(400).json(helper.jsonMsgError(ex.message))
+        }        
+    
+
+});
+
 serviceRouter.get("/register/alle", function(request, response) {
     helper.log("Service Register: Client requested all records");
 
     const registerDao = new RegisterDao(request.app.locals.dbConnection);
     try {        
-        var result = registerDao.loadAll();        
+        var result = registerDao.loadAll(); 
+        helper.log(result)       
         helper.log("Service Register: Records loaded, count=" + result.length);
         response.status(200).json(helper.jsonMsgOK(result));
     } catch (ex) {
@@ -48,7 +70,7 @@ serviceRouter.get("/register/existiert/:id", function(request, response) {
 
 serviceRouter.post("/register", function(request, response) {
     helper.log("Service Register: Client requested creation of new record");
-
+    helper.log(request.body.passwort)
     var errorMsgs=[];
     if (helper.isUndefined(request.body.strasse)) 
         errorMsgs.push("strasse fehlt");
@@ -68,7 +90,7 @@ serviceRouter.post("/register", function(request, response) {
 
     const registerDao = new RegisterDao(request.app.locals.dbConnection);
     try {
-        var result = registerDao.create(request.body.mail,request.body.vorname,request.body.nachname,request.body.strasse, request.body.hausnummer, request.body.plz, request.body.ort, request.body.passwort);
+        var result = registerDao.create(request.body.mail,request.body.vorname,request.body.nachname,request.body.strasse, request.body.hausnummer, request.body.ort, request.body.plz, request.body.passwort);
         helper.log("Service Register: Record inserted");
         response.status(200).json(helper.jsonMsgOK(result));
     } catch (ex) {
