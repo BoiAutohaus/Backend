@@ -68,7 +68,7 @@ serviceRouter.post("/register", function(request, response) {
 
     const registerDao = new RegisterDao(request.app.locals.dbConnection);
     try {
-        var result = registerDao.create(request.body.mail,request.body.vorname,request.body.nachname,request.body.strasse, request.body.hausnummer, request.body.plz, request.body.ort, request.body.passwort);
+        var result = registerDao.create(request.body.mail,request.body.vorname,request.body.nachname,request.body.strasse, request.body.hausnummer, request.body.ort, request.body.plz, request.body.passwort);
         helper.log("Service Register: Record inserted");
         response.status(200).json(helper.jsonMsgOK(result));
     } catch (ex) {
