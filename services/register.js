@@ -23,17 +23,17 @@ serviceRouter.get("/login", function(request, response){
     
     const registerDao = new RegisterDao(request.app.locals.dbConnection);
     try{
-        var mail = registerDao.loadByMail(request.body.mail)
-        helper.log(mail)
+        var mail = registerDao.loadByMail(request.body.mail);
+        helper.log(mail);
         
         if (mail[passwort] == request.body.passwort)
-            var success = "Successfully logged in"
-            helper.log(success)
-            response.status(200).json(helper.jsonMsgOK(success))
+            var success = "Successfully logged in";
+            helper.log(success);
+            response.status(200).json(helper.jsonMsgOK(success));
         
     } catch (ex){
-            helper.logError("Service Register: Error logging in, Exception occured: " + ex.message)
-            response.status(400).json(helper.jsonMsgError(ex.message))
+            helper.logError("Service Register: Error logging in, Exception occured: " + ex.message);
+            response.status(400).json(helper.jsonMsgError(ex.message));
         }        
     
 
