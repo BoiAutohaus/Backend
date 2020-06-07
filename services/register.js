@@ -18,6 +18,21 @@ serviceRouter.get("/register/gib/:mail", function(request, response) {
     }
 });
 
+serviceRouter.get("/login", function(request, response){
+    helper.log("Service Register: Client tries to login, eMail= " + request.body.mail + " Passwort: " + request.body.passwort);
+    
+    const registerDao = new RegisterDao(request.app.locals.dbConnection);
+    try{
+        var mail = registerDao.loadByMail(request.body.mail)
+        helper.log(mail)
+        
+    } catch (ex){
+            helper.logError("Service Register: Error logging in, Exception occured: " + ex.message)
+        }        
+    
+
+});
+
 serviceRouter.get("/register/alle", function(request, response) {
     helper.log("Service Register: Client requested all records");
 
