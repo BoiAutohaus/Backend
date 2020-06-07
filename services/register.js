@@ -3,12 +3,12 @@ const RegisterDao = require("../dao/registerDao.js");
 const express = require("express");
 var serviceRouter = express.Router();
 
-serviceRouter.get("/register/gib/:id", function(request, response) {
-    helper.log("Service Register: Client requested one record, id=" + request.params.id);
+serviceRouter.get("/register/gib/:mail", function(request, response) {
+    helper.log("Service Register: Client requested one record, eMail=" + request.params.mail);
 
     const registerDao = new RegisterDao(request.app.locals.dbConnection);
     try {
-        var result = registerDao.loadById(request.params.id);
+        var result = registerDao.loadByMail(request.params.mail);
         helper.log("Service Register: Record loaded");
         response.status(200).json(helper.jsonMsgOK(result));
     } catch (ex) {
@@ -53,8 +53,6 @@ serviceRouter.post("/register", function(request, response) {
         errorMsgs.push("strasse fehlt");
     if (helper.isUndefined(request.body.hausnummer)) 
         errorMsgs.push("hausnummer fehlt");
-    if (helper.isUndefined(request.body.adresszusatz)) 
-        request.body.adresszusatz = "";
     if (helper.isUndefined(request.body.plz)) 
         errorMsgs.push("plz fehlt");
     if (helper.isUndefined(request.body.ort)) 
@@ -88,8 +86,6 @@ serviceRouter.put("/register", function(request, response) {
         errorMsgs.push("strasse fehl");
     if (helper.isUndefined(request.body.hausnummer)) 
         errorMsgs.push("hausnummer fehl");
-    if (helper.isUndefined(request.body.adresszusatz)) 
-        request.body.adresszusatz = "";
     if (helper.isUndefined(request.body.plz)) 
         errorMsgs.push("plz fehl");
     if (helper.isUndefined(request.body.ort)) 

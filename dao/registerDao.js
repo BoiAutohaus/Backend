@@ -11,14 +11,14 @@ class RegisterDao {
         return this._conn;
     }
 
-    loadById(id) {
+    loadByMail(mail) {
 
-        var sql = "SELECT * FROM Kundenadresse WHERE ID=?";
+        var sql = "SELECT * FROM Kundenadresse WHERE eMail=?";
         var statement = this._conn.prepare(sql);
-        var result = statement.get(id);
+        var result = statement.get(mail);
 
         if (helper.isUndefined(result)) 
-            throw new Error("No Record found by id=" + id);
+            throw new Error("No Record found by id=" + mail);
 
         result = helper.objectKeysToLower(result);
 
