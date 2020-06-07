@@ -10,6 +10,7 @@ serviceRouter.get("/register/gib/:mail", function(request, response) {
     try {
         var result = registerDao.loadByMail(request.params.mail);
         helper.log("Service Register: Record loaded");
+        
         response.status(200).json(helper.jsonMsgOK(result));
     } catch (ex) {
         helper.logError("Service Register: Error loading record by id. Exception occured: " + ex.message);

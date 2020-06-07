@@ -13,7 +13,7 @@ class RegisterDao {
 
     loadByMail(mail) {
 
-        var sql = "SELECT * FROM Kundenadresse WHERE eMail=?";
+        var sql = "SELECT * FROM Kundendaten WHERE eMail=?";
         var statement = this._conn.prepare(sql);
         var result = statement.get(mail);
 
@@ -26,9 +26,24 @@ class RegisterDao {
         return result;
     }
 
+    loadById(id) {
+
+        var sql = "SELECT * FROM Kundendaten WHERE ID=?";
+        var statement = this._conn.prepare(sql);
+        var result = statement.get(id);
+
+        if (helper.isUndefined(result)) 
+            throw new Error("No Record found by id=" + id);
+
+        result = helper.objectKeysToLower(result);
+
+
+        return result;
+    }
+
     loadAll() {
 
-        var sql = "SELECT * FROM Kundenadresse";
+        var sql = "SELECT * FROM Kundendaten";
         
         var statement = this._conn.prepare(sql);
          
@@ -43,7 +58,7 @@ class RegisterDao {
     }
 
     exists(id) {
-        var sql = "SELECT COUNT(ID) AS cnt FROM Kundenadresse WHERE ID=?";
+        var sql = "SELECT COUNT(ID) AS cnt FROM Kundendaten WHERE ID=?";
         var statement = this._conn.prepare(sql);
         var result = statement.get(id);
 
@@ -53,10 +68,10 @@ class RegisterDao {
         return false;
     }
 
-    create(strasse = "", hausnummer = "", adresszusatz = "", plz = "", ort = "") {
-        var sql = "INSERT INTO Kundenadresse (Strasse,Hausnummer,Adresszusatz,PLZ,Ort) VALUES (?,?,?,?,?)";
+    create(email = "" ,vorname = "", nachname="" ,strasse = "", hausnummer = "", plz = "", ort = "", passwort ="") {
+        var sql = "INSERT INTO Kundendaten (eMail, Vorname, Nachname, Strasse,Hausnummer,Ort, PLZ, Passwort) VALUES (?,?,?,?,?,?,?,?)";
         var statement = this._conn.prepare(sql);
-        var params = [strasse, hausnummer, adresszusatz, plz, ort];
+        var params = [email, vorname, nachname, strasse, hausnummer,plz, ort,passwort];
         var result = statement.run(params);
 
         if (result.changes != 1) 
@@ -66,10 +81,10 @@ class RegisterDao {
         return newObj;
     }
 
-    update(id, strasse = "", hausnummer = "", adresszusatz = "", plz = "", ort = "") {
-        var sql = "UPDATE Kundenadresse SET Strasse=?,Hausnummer=?,Adresszusatz=?,PLZ=?,Ort=? WHERE ID=?";
+    update(id, email="", vorname="", nachname ="", strasse = "", hausnummer = "", plz = "", ort = "",passwort="") {
+        var sql = "UPDATE Kundendaten SET eMail=?, Vorname=?,Nachname=?,Strasse=?,Hausnummer=?,PLZ=?,Ort=?,Passwort=? WHERE ID=?";
         var statement = this._conn.prepare(sql);
-        var params = [strasse, hausnummer, adresszusatz, plz, ort, id];
+        var params = [email,vorname, nachname, strasse, hausnummer, plz, ort,passwort, id];
         var result = statement.run(params);
 
         if (result.changes != 1) 
@@ -81,7 +96,7 @@ class RegisterDao {
 
     delete(id) {
         try {
-            var sql = "DELETE FROM Kundenadresse WHERE ID=?";
+            var sql = "DELETE FROM Kundendaten WHERE ID=?";
             var statement = this._conn.prepare(sql);
             var result = statement.run(id);
 
