@@ -34,7 +34,7 @@ serviceRouter.post("/login", function(request, response){
         }
         else{
             helper.log("Failed to login! Passwort oder eMail falsch!");
-            response.status(400).json(helper.jsonMsgError("Failed to login! eMail oder Passwort falsch"));
+            response.status(401).json(helper.jsonMsgError("Failed to login! eMail oder Passwort falsch"));
         }
         
     } catch (ex){
