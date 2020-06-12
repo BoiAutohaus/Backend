@@ -91,7 +91,7 @@ serviceRouter.post("/register", function(request, response) {
     
     if (errorMsgs.length > 0) {
         helper.log("Service Register: Creation not possible, data missing");
-        response.status(400).json(helper.jsonMsgError("Hinzufügen nicht möglich. Fehlende Daten: " + helper.concatArray(errorMsgs)));
+        response.status(400).json({respo :"Hinzufügen nicht möglich. Fehlende Daten: " });
         return;
     }
 
@@ -103,7 +103,7 @@ serviceRouter.post("/register", function(request, response) {
 
     } catch (ex) {
         helper.logError("Service Register: Error creating new record. Exception occured: " + ex.message);
-        response.status(400).json(helper.jsonMsgError(ex.message));
+        response.status(400).json({respo : 'Couldnt create new record.'});
     }    
 });
 
