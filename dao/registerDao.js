@@ -25,6 +25,8 @@ class RegisterDao {
 
         return result;
     }
+           
+    
 
     loadById(id) {
 

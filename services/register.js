@@ -31,6 +31,7 @@ serviceRouter.post("/login", function(request, response){
             var success = "Successfully logged in";
             helper.log(success);
             response.status(200).json(helper.jsonMsgOK(success));
+            window.alert("angemeldet")
         }
         else{
             helper.log("Failed to login! Passwort oder eMail falsch!");
@@ -98,7 +99,8 @@ serviceRouter.post("/register", function(request, response) {
     try {
         var result = registerDao.create(request.body.mail,request.body.vorname,request.body.nachname,request.body.strasse, request.body.hausnummer, request.body.ort, request.body.plz, request.body.passwort);
         helper.log("Service Register: Record inserted");
-        response.status(200).json(helper.jsonMsgOK(result));
+        response.status(200).json({email:'Erfolgreich ' , password: 'Registriert'});
+
     } catch (ex) {
         helper.logError("Service Register: Error creating new record. Exception occured: " + ex.message);
         response.status(400).json(helper.jsonMsgError(ex.message));
