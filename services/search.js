@@ -1,12 +1,12 @@
 const helper = require("../helper.js");
-const RegisterDao = require("../dao/registerDao.js");
+const SearchDao = require("../dao/searchDao.js");
 const express = require("express");
 var serviceRouter = express.Router();
 
 serviceRouter.get("/register/gib/:mail", function(request, response) {
     helper.log("Service Register: Client requested one record, eMail=" + request.params.mail);
 
-    const registerDao = new RegisterDao(request.app.locals.dbConnection);
+    const searchDao = new SearchDao(request.app.locals.dbConnection);
     try {
         var result = registerDao.loadByMail(request.params.mail);
         helper.log("Service Register: Record loaded");
@@ -16,6 +16,13 @@ serviceRouter.get("/register/gib/:mail", function(request, response) {
         helper.logError("Service Register: Error loading record by id. Exception occured: " + ex.message);
         response.status(400).json(helper.jsonMsgError(ex.message));
     }
+});
+
+serviceRouter.get("/auto?marke=?&modell=?&erstzulassung=?&kilometer=?&region=?&adresse=?&preis=?&kraftstoffart=?", function(request,response){
+    continue
+    //NOT SURE IF PARAMETERS ARE CORRECT AND IF THIS EVEN WORKS LIKE THIS
+    //CODE NEEDS TO BE HERE
+    // REST OF THE CODE IS PROBABLY NOT NEEDED
 });
 
 serviceRouter.post("/login", function(request, response){
@@ -30,12 +37,12 @@ serviceRouter.post("/login", function(request, response){
         if (mail.passwort == request.body.passwort){
             var success = "Successfully logged in";
             helper.log(success);
-            response.status(200).json({mail: 'log in'});
-            
+            response.status(200).json(helper.jsonMsgOK(success));
+           
         }
         else{
             helper.log("Failed to login! Passwort oder eMail falsch!");
-            response.status(401).json({antwort2: 'Failed to login! eMail oder Passwort falsch'});
+            response.status(401).json(helper.jsonMsgError("Failed to login! eMail oder Passwort falsch"));
         }
         
     } catch (ex){
@@ -43,6 +50,7 @@ serviceRouter.post("/login", function(request, response){
             response.status(400).json(helper.jsonMsgError(ex.message));
         }        
     
+
 });
 
 serviceRouter.get("/register/alle", function(request, response) {
