@@ -99,7 +99,7 @@ serviceRouter.post("/register", function(request, response) {
     try {
         var result = registerDao.create(request.body.mail,request.body.vorname,request.body.nachname,request.body.strasse, request.body.hausnummer, request.body.ort, request.body.plz, request.body.passwort);
         helper.log("Service Register: Record inserted");
-        response.status(200).json({ email:'erfolgreich ' , password: 'registriert'});
+        response.status(200).json({ email:'erfolgreich' , password: 'registriert'});
 
     } catch (ex) {
         helper.logError("Service Register: Error creating new record. Exception occured: " + ex.message);
