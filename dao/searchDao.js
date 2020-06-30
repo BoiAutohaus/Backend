@@ -135,7 +135,7 @@ class SearchDao {
 
     loadAll() {
 
-        var sql = "SELECT * FROM Kundendaten";
+        var sql = "SELECT * FROM Autos";
         
         var statement = this._conn.prepare(sql);
          
@@ -150,7 +150,7 @@ class SearchDao {
     }
 
     exists(id) {
-        var sql = "SELECT COUNT(ID) AS cnt FROM Kundendaten WHERE ID=?";
+        var sql = "SELECT COUNT(ID) AS cnt FROM Autos WHERE ID=?";
         var statement = this._conn.prepare(sql);
         var result = statement.get(id);
 
@@ -160,22 +160,9 @@ class SearchDao {
         return false;
     }
 
-    update(id, email="", vorname="", nachname ="", strasse = "", hausnummer = "", plz = "", ort = "",passwort="") {
-        var sql = "UPDATE Kundendaten SET eMail=?, Vorname=?,Nachname=?,Strasse=?,Hausnummer=?,PLZ=?,Ort=?,Passwort=? WHERE ID=?";
-        var statement = this._conn.prepare(sql);
-        var params = [email,vorname, nachname, strasse, hausnummer, plz, ort,passwort, id];
-        var result = statement.run(params);
-
-        if (result.changes != 1) 
-            throw new Error("Could not update existing Record. Data: " + params);
-
-        var updatedObj = this.loadById(id);
-        return updatedObj;
-    }
-
     delete(id) {
         try {
-            var sql = "DELETE FROM Kundendaten WHERE ID=?";
+            var sql = "DELETE FROM Autos WHERE ID=?";
             var statement = this._conn.prepare(sql);
             var result = statement.run(id);
 
@@ -189,8 +176,8 @@ class SearchDao {
     }
 
     toString() {
-        helper.log("RegisterDao [_conn=" + this._conn + "]");
+        helper.log("SearchDao [_conn=" + this._conn + "]");
     }
 }
 
-module.exports = RegisterDao;
+module.exports = SearchDao;
