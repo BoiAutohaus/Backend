@@ -30,12 +30,12 @@ serviceRouter.post("/login", function(request, response){
         if (mail.passwort == request.body.passwort){
             var success = "Successfully logged in";
             helper.log(success);
-            response.status(200).json({response: success});
+            response.status(200).json({mail: success});
             
         }
         else{
             helper.log("Failed to login! Passwort oder eMail falsch!");
-            response.status(401).json({response: 'Failed to login! eMail oder Passwort falsch'});
+            response.status(401).json({mail: 'Failed to login! eMail oder Passwort falsch'});
         }
         
     } catch (ex){
