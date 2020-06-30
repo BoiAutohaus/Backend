@@ -26,7 +26,6 @@ class SearchDao {
             throw new Error("No Record found");
 
         result = helper.objectKeysToLower(result);
-        helper.log(result);
         return result;
     } 
 
