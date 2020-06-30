@@ -23,13 +23,14 @@ serviceRouter.get("/auto/alle", function(request, response) {
 
     const searchDao = new SearchDao(request.app.locals.dbConnection);
     try {        
-        var result = searchDao.loadAll(); 
+        var result = searchDao.loadAll(request.body.marke,request.body.erstzulassung,
+                                                        request.body.maxkm, request.body.region,request.body.address, request.body.price, request.body.sprit); 
         helper.log(result)
         helper.log("Service Search: Records loaded, count=" + result.length);
         response.status(200).json(helper.jsonMsgOK(result));
     } catch (ex) {
         helper.logError("Service Search: Error loading all cars. Exception occured: " + ex.message);
-        response.status(400).json(helper.jsonMsgError(ex.message));
+        response.status(401).json(helper.jsonMsgError(ex.message));
     }
 });
 
