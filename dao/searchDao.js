@@ -18,9 +18,9 @@ class SearchDao {
             erstzulassung = null;
         }
         
-        var sql = "SELECT * FROM Autos WHERE Marke=? AND Modell=? AND Erstzulassung=? AND Kilometer <= "+km+" AND Region=? AND Adresse=? AND Preis=? AND Kraftstoffart=?";
+        var sql = "SELECT * FROM Autos WHERE Marke=? AND Modell=? AND Erstzulassung=? AND Kilometer <= ? AND Region=? AND Adresse=? AND Preis <=? AND Kraftstoffart=?";
         var statement = this._conn.prepare(sql);
-        var result = statement.all(marke,modell,erstzulassung,region,adresse,preis,kraftstoffart);
+        var result = statement.all(marke,modell,erstzulassung,km,region,adresse,preis,kraftstoffart);
 
         result = helper.objectKeysToLower(result);
         //helper.log("Ergebnis: " + JSON.stringify(result));          
