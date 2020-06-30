@@ -24,7 +24,7 @@ serviceRouter.get("/auto/alle", function(request, response) {
     const searchDao = new SearchDao(request.app.locals.dbConnection);
     try {        
         var result = searchDao.loadAll(); 
-        helper.log(result)       
+        helper.log(result)
         helper.log("Service Search: Records loaded, count=" + result.length);
         response.status(200).json(helper.jsonMsgOK(result));
     } catch (ex) {
