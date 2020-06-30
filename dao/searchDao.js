@@ -13,7 +13,7 @@ class SearchDao {
     }
 
     loadByAll(marke,modell,erstzulassung,km,region,adresse,preis,kraftstoffart) {
-        
+
         if (erstzulassung === "Erstzulassung auswählen"){
             erstzulassung = null;
         }

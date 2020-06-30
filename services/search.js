@@ -1,6 +1,7 @@
 const helper = require("../helper.js");
 const SearchDao = require("../dao/searchDao.js");
 const express = require("express");
+const { Integer } = require("better-sqlite3");
 var serviceRouter = express.Router();
 
 serviceRouter.post("/auto", function(request,response){
