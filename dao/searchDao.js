@@ -1,4 +1,5 @@
 const helper = require("../helper.js");
+const { request } = require("express");
 
 
 class SearchDao {
@@ -11,6 +12,20 @@ class SearchDao {
         return this._conn;
     }
 
+    loadByAll(marke,modell,erstzulassung,km,region,adresse,preis,kraftstoffart) {
+        
+        var sql = "SELECT * FROM Autos WHERE Marke=? AND Modell=? AND Erstzulassung=? AND Kilometer=? AND Region=? AND Adresse=? AND Preis=? AND Kraftstoffart=?";
+        var statement = this._conn.prepare(sql);
+        var result = statement.get(marke,modell,erstzulassung,km,region,adresse,preis,kraftstoffart);
+        helper.log("Ergebnis: " + result)
+        
+        if (helper.isUndefined(result)) 
+            throw new Error("No Record found");
+
+        result = helper.objectKeysToLower(result);
+        helper.log(result);
+        return result;
+    } 
     loadByMarke(marke) {
         
         var sql = "SELECT * FROM Autos WHERE Marke=?";
@@ -24,9 +39,7 @@ class SearchDao {
         
 
         return result;
-    }
-           
-    
+    } 
 
     loadById(id) {
 
@@ -145,19 +158,6 @@ class SearchDao {
             return true;
 
         return false;
-    }
-
-    create(mail = "" ,vorname = "", nachname="" ,strasse = "", hausnummer = "", plz = "", ort = "", passwort ="") {
-        var sql = "INSERT INTO Kundendaten (eMail, Vorname, Nachname, Strasse,Hausnummer,Ort, PLZ, Passwort) VALUES (?,?,?,?,?,?,?,?)";
-        var statement = this._conn.prepare(sql);
-        var params = [mail, vorname, nachname, strasse, hausnummer,plz, ort,passwort];
-        var result = statement.run(params);
-
-        if (result.changes != 1) 
-            throw new Error("Could not insert new Record. Data: " + params);
-
-        var newObj = this.loadById(result.lastInsertRowid);
-        return newObj;
     }
 
     update(id, email="", vorname="", nachname ="", strasse = "", hausnummer = "", plz = "", ort = "",passwort="") {

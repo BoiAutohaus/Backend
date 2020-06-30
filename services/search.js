@@ -18,39 +18,19 @@ serviceRouter.get("/register/gib/:mail", function(request, response) {
     }
 });
 
-serviceRouter.get("/auto?marke=?&modell=?&erstzulassung=?&kilometer=?&region=?&adresse=?&preis=?&kraftstoffart=?", function(request,response){
-    continue
-    //NOT SURE IF PARAMETERS ARE CORRECT AND IF THIS EVEN WORKS LIKE THIS
-    //CODE NEEDS TO BE HERE
-    // REST OF THE CODE IS PROBABLY NOT NEEDED
-});
-
-serviceRouter.post("/login", function(request, response){
-    helper.log("Service Register: Client tries to login, eMail= " + request.body.mail + " ,Passwort: " + request.body.passwort);
-    
-    const registerDao = new RegisterDao(request.app.locals.dbConnection);
+serviceRouter.post("/auto", function(request,response){
+    //?marke=?&modell=?&erstzulassung=?&kilometer=?&region=?&adresse=?&preis=?&kraftstoffart=?
+    const searchDao = new SearchDao(request.app.locals.dbConnection);
     try{
-        
-        var mail = registerDao.loadByMail(request.body.mail);
-        
-        
-        if (mail.passwort == request.body.passwort){
-            var success = "Successfully logged in";
-            helper.log(success);
-            response.status(200).json(helper.jsonMsgOK(success));
-           
-        }
-        else{
-            helper.log("Failed to login! Passwort oder eMail falsch!");
-            response.status(401).json(helper.jsonMsgError("Failed to login! eMail oder Passwort falsch"));
-        }
-        
-    } catch (ex){
-            helper.logError("Service Register: Error logging in, Exception occured: " + ex.message);
-            response.status(400).json(helper.jsonMsgError(ex.message));
-        }        
-    
-
+        var result = searchDao.loadByAll();
+        helper.log(result);
+        helper.log("Service Search: " + result.length + " Cars loaded");
+        response.status(200).json(helper.jsonMsgOK(result));
+    }
+    catch (ex){
+        helper.logError("Service Search: Error loading Cars: Exception occurred: " + ex.message);
+        response.status(400).json(helper.jsonMsgError(ex.message));
+    }
 });
 
 serviceRouter.get("/register/alle", function(request, response) {
