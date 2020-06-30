@@ -1,4 +1,5 @@
 const helper = require("../helper.js");
+const { request } = require("express");
 
 
 class SearchDao {
@@ -11,6 +12,21 @@ class SearchDao {
         return this._conn;
     }
 
+    loadByAll(marke,modell,erstzulassung,km,region,adresse,preis,kraftstoffart) {
+        
+        var sql = "SELECT * FROM Autos WHERE Marke=? AND Modell=? AND Erstzulassung=? AND Kilometer=? <="+km+" AND Region=? AND Adresse=? AND Preis=? AND Kraftstoffart=?";
+        var statement = this._conn.prepare(sql);
+        var result = statement.get(marke,modell,erstzulassung,km,region,adresse,preis,kraftstoffart);
+        helper.log("Ergebnis: " + result)
+        
+        if (helper.isUndefined(result)) 
+            throw new Error("No Record found");
+
+        result = helper.objectKeysToLower(result);
+        helper.log(result);
+        return result;
+    } 
+    
     loadByMarke(marke) {
         
         var sql = "SELECT * FROM Autos WHERE Marke=?";
@@ -24,9 +40,7 @@ class SearchDao {
         
 
         return result;
-    }
-           
-    
+    } 
 
     loadById(id) {
 
@@ -122,7 +136,7 @@ class SearchDao {
 
     loadAll() {
 
-        var sql = "SELECT * FROM Kundendaten";
+        var sql = "SELECT * FROM Autos";
         
         var statement = this._conn.prepare(sql);
          
@@ -137,7 +151,7 @@ class SearchDao {
     }
 
     exists(id) {
-        var sql = "SELECT COUNT(ID) AS cnt FROM Kundendaten WHERE ID=?";
+        var sql = "SELECT COUNT(ID) AS cnt FROM Autos WHERE ID=?";
         var statement = this._conn.prepare(sql);
         var result = statement.get(id);
 
@@ -147,35 +161,9 @@ class SearchDao {
         return false;
     }
 
-    create(mail = "" ,vorname = "", nachname="" ,strasse = "", hausnummer = "", plz = "", ort = "", passwort ="") {
-        var sql = "INSERT INTO Kundendaten (eMail, Vorname, Nachname, Strasse,Hausnummer,Ort, PLZ, Passwort) VALUES (?,?,?,?,?,?,?,?)";
-        var statement = this._conn.prepare(sql);
-        var params = [mail, vorname, nachname, strasse, hausnummer,plz, ort,passwort];
-        var result = statement.run(params);
-
-        if (result.changes != 1) 
-            throw new Error("Could not insert new Record. Data: " + params);
-
-        var newObj = this.loadById(result.lastInsertRowid);
-        return newObj;
-    }
-
-    update(id, email="", vorname="", nachname ="", strasse = "", hausnummer = "", plz = "", ort = "",passwort="") {
-        var sql = "UPDATE Kundendaten SET eMail=?, Vorname=?,Nachname=?,Strasse=?,Hausnummer=?,PLZ=?,Ort=?,Passwort=? WHERE ID=?";
-        var statement = this._conn.prepare(sql);
-        var params = [email,vorname, nachname, strasse, hausnummer, plz, ort,passwort, id];
-        var result = statement.run(params);
-
-        if (result.changes != 1) 
-            throw new Error("Could not update existing Record. Data: " + params);
-
-        var updatedObj = this.loadById(id);
-        return updatedObj;
-    }
-
     delete(id) {
         try {
-            var sql = "DELETE FROM Kundendaten WHERE ID=?";
+            var sql = "DELETE FROM Autos WHERE ID=?";
             var statement = this._conn.prepare(sql);
             var result = statement.run(id);
 
@@ -189,8 +177,8 @@ class SearchDao {
     }
 
     toString() {
-        helper.log("RegisterDao [_conn=" + this._conn + "]");
+        helper.log("SearchDao [_conn=" + this._conn + "]");
     }
 }
 
-module.exports = RegisterDao;
+module.exports = SearchDao;
