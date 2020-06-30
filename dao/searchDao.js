@@ -14,7 +14,7 @@ class SearchDao {
 
     loadByAll(marke,modell,erstzulassung,km,region,adresse,preis,kraftstoffart) {
         
-        var sql = "SELECT * FROM Autos WHERE Marke=? AND Modell=? AND Erstzulassung=? AND Kilometer=? AND Region=? AND Adresse=? AND Preis=? AND Kraftstoffart=?";
+        var sql = "SELECT * FROM Autos WHERE Marke=? AND Modell=? AND Erstzulassung=? AND Kilometer=? <="+km+" AND Region=? AND Adresse=? AND Preis=? AND Kraftstoffart=?";
         var statement = this._conn.prepare(sql);
         var result = statement.get(marke,modell,erstzulassung,km,region,adresse,preis,kraftstoffart);
         helper.log("Ergebnis: " + result)
@@ -26,6 +26,7 @@ class SearchDao {
         helper.log(result);
         return result;
     } 
+    
     loadByMarke(marke) {
         
         var sql = "SELECT * FROM Autos WHERE Marke=?";

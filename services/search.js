@@ -3,21 +3,6 @@ const SearchDao = require("../dao/searchDao.js");
 const express = require("express");
 var serviceRouter = express.Router();
 
-serviceRouter.get("/register/gib/:mail", function(request, response) {
-    helper.log("Service Register: Client requested one record, eMail=" + request.params.mail);
-
-    const searchDao = new SearchDao(request.app.locals.dbConnection);
-    try {
-        var result = registerDao.loadByMail(request.params.mail);
-        helper.log("Service Register: Record loaded");
-        
-        response.status(200).json(helper.jsonMsgOK(result));
-    } catch (ex) {
-        helper.logError("Service Register: Error loading record by id. Exception occured: " + ex.message);
-        response.status(400).json(helper.jsonMsgError(ex.message));
-    }
-});
-
 serviceRouter.post("/auto", function(request,response){
     //?marke=?&modell=?&erstzulassung=?&kilometer=?&region=?&adresse=?&preis=?&kraftstoffart=?
     const searchDao = new SearchDao(request.app.locals.dbConnection);
@@ -33,36 +18,36 @@ serviceRouter.post("/auto", function(request,response){
     }
 });
 
-serviceRouter.get("/register/alle", function(request, response) {
-    helper.log("Service Register: Client requested all records");
+serviceRouter.get("/auto/alle", function(request, response) {
+    helper.log("Service Search: Client requested all cars");
 
-    const registerDao = new RegisterDao(request.app.locals.dbConnection);
+    const searchDao = new SearchDao(request.app.locals.dbConnection);
     try {        
-        var result = registerDao.loadAll(); 
+        var result = searchDao.loadAll(); 
         helper.log(result)       
-        helper.log("Service Register: Records loaded, count=" + result.length);
+        helper.log("Service Search: Records loaded, count=" + result.length);
         response.status(200).json(helper.jsonMsgOK(result));
     } catch (ex) {
-        helper.logError("Service Register: Error loading all records. Exception occured: " + ex.message);
+        helper.logError("Service Search: Error loading all cars. Exception occured: " + ex.message);
         response.status(400).json(helper.jsonMsgError(ex.message));
     }
 });
 
-serviceRouter.get("/register/existiert/:id", function(request, response) {
-    helper.log("Service register: Client requested check, if record exists, id=" + request.params.id);
+serviceRouter.get("/auto/existiert/:id", function(request, response) {
+    helper.log("Service Search: Client requested check, if car exists, id=" + request.params.id);
 
-    const registerDao = new RegisterDao(request.app.locals.dbConnection);
+    const searchDao = new SearchDao(request.app.locals.dbConnection);
     try {
-        var result = registerDao.exists(request.params.id);
-        helper.log("Service Register: Check if record exists by id=" + request.params.id + ", result=" + result);
+        var result = searchDao.exists(request.params.id);
+        helper.log("Service Search: Check if record exists by id=" + request.params.id + ", result=" + result);
         response.status(200).json(helper.jsonMsgOK({ "id": request.params.id, "existiert": result }));
     } catch (ex) {
-        helper.logError("Service Register: Error checking if record exists. Exception occured: " + ex.message);
+        helper.logError("Service Search: Error checking if record exists. Exception occured: " + ex.message);
         response.status(400).json(helper.jsonMsgError(ex.message));
     }
 });
 
-serviceRouter.post("/register", function(request, response) {
+/*serviceRouter.post("/register", function(request, response) {
     helper.log("Service Register: Client requested creation of new record");
     helper.log(request.body.passwort)
     var errorMsgs=[];
@@ -124,19 +109,19 @@ serviceRouter.put("/register", function(request, response) {
         helper.logError("Service Register: Error updating record by id. Exception occured: " + ex.message);
         response.status(400).json(helper.jsonMsgError(ex.message));
     }    
-});
+});*/
 
-serviceRouter.delete("/register/:id", function(request, response) {
+serviceRouter.delete("/auto/:id", function(request, response) {
     helper.log("Service Register: Client requested deletion of record, id=" + request.params.id);
 
-    const registerDao = new RegisterDao(request.app.locals.dbConnection);
+    const searchDao = new SearchDao(request.app.locals.dbConnection);
     try {
-        var obj = registerDao.loadById(request.params.id);
+        var obj = searchDao.loadById(request.params.id);
         registerDao.delete(request.params.id);
-        helper.log("Service Register: Deletion of record successfull, id=" + request.params.id);
+        helper.log("Service Search: Deletion of record successfull, id=" + request.params.id);
         response.status(200).json(helper.jsonMsgOK({ "gelöscht": true, "eintrag": obj }));
     } catch (ex) {
-        helper.logError("Service Register: Error deleting record. Exception occured: " + ex.message);
+        helper.logError("Service Search: Error deleting record. Exception occured: " + ex.message);
         response.status(400).json(helper.jsonMsgError(ex.message));
     }
 });
