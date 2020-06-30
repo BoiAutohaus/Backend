@@ -16,7 +16,7 @@ serviceRouter.post("/auto", function(request,response){
     }
     catch (ex){
         helper.logError("Service Search: Error loading Cars: Exception occurred: " + ex.message);
-        response.status(400).json(helper.jsonMsgError(ex.message));
+        response.status(401).json(helper.jsonMsgError(ex.message));
     }
 });
 
