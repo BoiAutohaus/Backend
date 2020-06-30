@@ -13,19 +13,21 @@ class SearchDao {
     }
 
     loadByAll(marke,modell,erstzulassung,km,region,adresse,preis,kraftstoffart) {
-
+        var list = [];
         if (erstzulassung === "Erstzulassung auswählen"){
             erstzulassung = null;
         }
-        var sql = "SELECT * FROM Autos WHERE Marke=? AND Modell=? AND Erstzulassung=? AND Kilometer <="+km+" AND Region=? AND Adresse=? AND Preis=? AND Kraftstoffart=?";
-        var statement = this._conn.prepare(sql);
-        var result = statement.get(marke,modell,erstzulassung,region,adresse,preis,kraftstoffart);
-        helper.log("Ergebnis: " + result)
         
-        if (helper.isUndefined(result)) 
-            throw new Error("No Record found");
+        var sql = "SELECT * FROM Autos WHERE Marke=? AND Modell=? AND Erstzulassung=? AND Kilometer <= "+km+" AND Region=? AND Adresse=? AND Preis=? AND Kraftstoffart=?";
+        var statement = this._conn.prepare(sql);
+        var result = statement.all(marke,modell,erstzulassung,region,adresse,preis,kraftstoffart);
 
         result = helper.objectKeysToLower(result);
+        //helper.log("Ergebnis: " + JSON.stringify(result));          
+            
+        if (helper.isUndefined(result)) 
+            throw new Error("No Record found");  
+
         return result;
     } 
 
