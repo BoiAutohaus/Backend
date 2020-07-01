@@ -13,16 +13,23 @@ class SearchDao {
     }
 
     loadByAll(marke,modell,erstzulassung,km,region,adresse,preis,kraftstoffart) {
-        
-        if (erstzulassung === "Erstzulassung auswählen"){
-            
-            throw new Error("Erstzulassung not defined. Please Select Erstzulassung");
-        }
-        if (marke === "Marke wählen"){
+        if (marke === "Marke auswählen"){
             throw new Error("Marke not defined. Please Select Marke");
         }
+        if (modell == null){
+            throw new Error("Please select Modell");
+        }
+        if (erstzulassung === "Erstzulassung auswählen"){            
+            throw new Error("Erstzulassung not defined. Please Select Erstzulassung");
+        }
+        if (km == null){
+            throw new Error("Please insert Kilometer");
+        }        
         if (region === "Region auswählen"){
             region = "Baden-Württemberg";
+        }
+        if (preis == null){
+            throw new Error("Please insert Preis");
         }
         if (kraftstoffart === "Kraftstoffart auswählen"){
             throw new Error("Kraftstoffart not defined. Please Select Kraftstoffart");
