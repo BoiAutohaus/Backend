@@ -15,16 +15,17 @@ class SearchDao {
     loadByAll(marke,modell,erstzulassung,km,region,adresse,preis,kraftstoffart) {
         
         if (erstzulassung === "Erstzulassung auswählen"){
-            erstzulassung = null;
+            
+            throw new Error("Erstzulassung not defined. Please Select Erstzulassung");
         }
         if (marke === "Marke wählen"){
-            marke = null;
+            throw new Error("Marke not defined. Please Select Marke");
         }
         if (region === "Region auswählen"){
-            region = null;
+            region = "Baden-Württemberg";
         }
         if (kraftstoffart === "Kraftstoffart auswählen"){
-            kraftstoffart = null;
+            throw new Error("Kraftstoffart not defined. Please Select Kraftstoffart");
         }
         
         var sql = "SELECT * FROM Autos WHERE Marke=? AND Modell=? AND Erstzulassung=? AND Kilometer <= ? AND Region=? AND Adresse=? AND Preis <=? AND Kraftstoffart=?";
