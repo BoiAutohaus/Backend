@@ -63,6 +63,8 @@ try {
     app.use(TOPLEVELPATH, serviceRouter);
     serviceRouter = require("./services/search.js");
     app.use(TOPLEVELPATH, serviceRouter);
+    serviceRouter = require("./services/buy.js");
+    app.use(TOPLEVELPATH, serviceRouter);
 
     //serviceRouter = require("./services/person.js");
     //app.use(TOPLEVELPATH, serviceRouter);  
