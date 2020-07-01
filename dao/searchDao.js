@@ -13,9 +13,18 @@ class SearchDao {
     }
 
     loadByAll(marke,modell,erstzulassung,km,region,adresse,preis,kraftstoffart) {
-        var list = [];
+        
         if (erstzulassung === "Erstzulassung auswählen"){
             erstzulassung = null;
+        }
+        if (marke === "Marke wählen"){
+            marke = null;
+        }
+        if (region === "Region auswählen"){
+            region = null;
+        }
+        if (kraftstoffart === "Kraftstoffart auswählen"){
+            kraftstoffart = null;
         }
         
         var sql = "SELECT * FROM Autos WHERE Marke=? AND Modell=? AND Erstzulassung=? AND Kilometer <= ? AND Region=? AND Adresse=? AND Preis <=? AND Kraftstoffart=?";
