@@ -12,7 +12,7 @@ serviceRouter.post("/auto", function(request,response){
         var result = searchDao.loadByAll(request.body.marke,request.body.modell,request.body.erstzulassung,
                                                         request.body.maxkm, request.body.region,request.body.address, request.body.price, request.body.sprit);
         helper.log(result);
-        helper.log("Service Search: " + result.length + " Cars loaded");
+        helper.log("Service Search: " + Object.keys(result).length + " Cars loaded");
         response.status(200).json(helper.jsonMsgOK(result));
     }
     catch (ex){
@@ -26,7 +26,7 @@ serviceRouter.post("/auto/suche", function(request, response){
     try{
         var result = searchDao.loadByMarke(request.body.searchbar);
         helper.log(result);
-        helper.log("Service Search: " + result.length + " Cars loaded")
+        helper.log("Service Search: " + Object.keys(result).length + " Cars loaded")
         response.status(200).json(helper.jsonMsgOK(result));
     }
     catch (ex){
