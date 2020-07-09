@@ -52,7 +52,7 @@ class SearchDao {
 
         var sql = "SELECT * FROM Autos WHERE Marke=?";
         var statement = this._conn.prepare(sql);
-        var result = statement.get(marke);
+        var result = statement.all(marke);
 
         if (helper.isUndefined(result)) 
             throw new Error("No Record found by id=" + marke);
