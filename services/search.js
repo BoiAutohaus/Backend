@@ -21,6 +21,20 @@ serviceRouter.post("/auto", function(request,response){
     }
 });
 
+serviceRouter.post("/auto/suche", function(request, response){
+    const searchDao = new SearchDao(request.app.locals.dbConnection);
+    try{
+        var result = searchDao.loadByMarke(request.body.searchbar);
+        helper.log(result);
+        helper.log("Service Search: " + result.length + " Cars loaded")
+        response.status(200).json(helper.jsonMsgOK(result));
+    }
+    catch (ex){
+        helper.logError("Service Search: Error loading Cars: Exception occurred: " + ex.message);
+        response.status(401).json(helper.jsonMsgError(ex.message));
+    }
+})
+
 serviceRouter.get("/auto/alle", function(request, response) {
     helper.log("Service Search: Client requested all cars");
 

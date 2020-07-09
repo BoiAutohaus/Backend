@@ -48,6 +48,19 @@ class SearchDao {
         return result;
     } 
 
+    loadByMarke(marke) {
+
+        var sql = "SELECT * FROM Autos WHERE Marke=?";
+        var statement = this._conn.prepare(sql);
+        var result = statement.get(marke);
+
+        if (helper.isUndefined(result)) 
+            throw new Error("No Record found by id=" + marke);
+
+        result = helper.objectKeysToLower(result);
+        return result;
+    }
+
     loadById(id) {
 
         var sql = "SELECT * FROM Autos WHERE ID=?";
@@ -62,6 +75,7 @@ class SearchDao {
 
         return result;
     }
+
 
     loadAll() {
 

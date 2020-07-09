@@ -3,7 +3,7 @@ const BuyDao = require("../dao/buyDao.js");
 const express = require("express");
 var serviceRouter = express.Router();
 
-serviceRouter.post("/buy", function(request,response){
+serviceRouter.delete("/buy", function(request,response){
     helper.log("Service Buy: Client tries to buy: " + buyDao.loadById(request.body.id));
 
     const buyDao = new BuyDao(request.app.locals.dbConnection);
@@ -17,8 +17,6 @@ serviceRouter.post("/buy", function(request,response){
     catch (ex){
         helper.logError("Service Buy: Error buying car, Exception occured: " + ex.message);
         response.status(401).json(helper.jsonMsgError(ex.message));
-
-
     }
 });
 
