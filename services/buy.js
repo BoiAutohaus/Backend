@@ -7,7 +7,7 @@ serviceRouter.post("/buy", function(request,response){
     helper.log("Service Buy: Client tries to buy: " + buyDao.loadById(request.body.id));
 
     const buyDao = new BuyDao(request.app.locals.dbConnection);
-    var Id = request.body.id;
+    var Id = request.body.name;
 
     try{
         buyDao.changeById(Id);
