@@ -35,7 +35,7 @@ class SearchDao {
             throw new Error("Kraftstoffart not defined. Please Select Kraftstoffart");
         }
         
-        var sql = "SELECT * FROM Autos WHERE Marke=? AND Modell=? AND Erstzulassung=? AND Kilometer <= ? AND Region=? AND Adresse=? AND Preis <=? AND Kraftstoffart=? AND Verkauft = 0";
+        var sql = "SELECT * FROM Autos WHERE Marke=? AND Modell=? AND Erstzulassung=? AND Kilometer <= ? AND Region=? AND Adresse=? AND Preis <=? AND Kraftstoffart=? AND Verkauft=0";
         var statement = this._conn.prepare(sql);
         var result = statement.all(marke,modell,erstzulassung,km,region,adresse,preis,kraftstoffart);
 
