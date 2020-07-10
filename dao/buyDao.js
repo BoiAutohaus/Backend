@@ -30,7 +30,7 @@ class BuyDao {
     changeById(id){
         var sql = "UPDATE Autos SET Verkauft = 1 WHERE ID=?";
         var statement = this._conn.prepare(sql);
-        var result = statement.get(id);
+        var result = statement.run(id);
 
         if (helper.isUndefined(result))
             throw new Error ("Error when buying Car. Contact Admin");

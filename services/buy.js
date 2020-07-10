@@ -4,12 +4,14 @@ const express = require("express");
 var serviceRouter = express.Router();
 
 serviceRouter.post("/buy", function(request,response){
-    helper.log("Service Buy: Client tries to buy: " + buyDao.loadById(request.body.id));
+   
 
-    const buyDao = new BuyDao(request.app.locals.dbConnection);
-    var Id = request.body.name;
+    const buyDao = new BuyDao(request.app.locals.dbConnection); 
+    helper.log(request.body.id); 
+    helper.log("Service Buy: Client tries to buy: " + buyDao.loadById(request.body.id));  
 
     try{
+        var Id = request.body.id;
         buyDao.changeById(Id);
         helper.log("Wurde erfolgreich gekauft");
         response.status(200).json(helper.jsonMsgOK({respo : "Erfolgreich gekauft", id : Id}))
