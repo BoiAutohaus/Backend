@@ -28,9 +28,9 @@ serviceRouter.post("/login", function(request, response){
         
         
         if (mail.passwort == request.body.passwort){
-            var success = "Successfully logged in";
+            var success = "Successfully logged in";            
             helper.log(success);
-            response.status(200).json({mail: success});
+            response.status(200).json({mail: success, vorname: mail.vorname, nachname: mail.nachname});
             
         }
         else{
