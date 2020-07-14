@@ -35,13 +35,14 @@ class SearchDao {
             throw new Error("Kraftstoffart not defined. Please Select Kraftstoffart");
         }
         
-        var sql = "SELECT * FROM Autos WHERE Marke=? AND Modell=? AND Erstzulassung=? AND Kilometer <= ? AND Region=? AND Adresse=? AND Preis <=? AND Kraftstoffart=? AND Verkauft=false";
+        var sql = "SELECT * FROM Autos WHERE Marke=? AND Modell=? AND Erstzulassung=? AND Kilometer <= ? AND Region=? AND Adresse=? AND Preis <=? AND Kraftstoffart=? AND Verkauft=0";
         var statement = this._conn.prepare(sql);
         var result = statement.all(marke,modell,erstzulassung,km,region,adresse,preis,kraftstoffart);
-        helper.log("Das auto: " + result);
+       
 
         result = helper.objectKeysToLower(result);
-        //helper.log("Ergebnis: " + JSON.stringify(result));          
+        //helper.log("Ergebnis: " + JSON.stringify(result));  
+        helper.log("Das auto: " + result);        
             
         if (helper.isUndefined(result)) 
             throw new Error("No Record found");  
@@ -51,7 +52,7 @@ class SearchDao {
 
     loadByMarke(marke) {
 
-        var sql = "SELECT * FROM Autos WHERE Marke=?";
+        var sql = "SELECT * FROM Autos WHERE Marke=? AND Verkauft=0";
         var statement = this._conn.prepare(sql);
         var result = statement.all(marke);
 
